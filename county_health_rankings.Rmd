@@ -102,8 +102,27 @@ chr_df_17 <- chr_df_17 %>%
     drinking_water = measure_124_value,
     severe_housing_problems = measure_136_value,
     driving_alone_to_work = measure_67_value,
-    long_commute = measure_137_value
+    long_commute = measure_137_value,
+    FIPS, current, baseline
   )
 
+```
+
+Taking only our peer cities. 
+
+```{r}
+chr_df_17 <- chr_df_17 %>% filter(current ==1)
+```
+
+Taking Z scores for everything. I wrote a simple function to take z-scores and then applied it to all columns except FIPS, current, and baseline. 
+
+```{r}
+chr_z <- chr_df_17
+
+norm_z <- function(x){
+  z <- (x - mean(x))/sd(x)
+}
+
+chr_z[,1:35] <- apply(chr_z[,1:35], 2, norm_z) 
 ```
 
