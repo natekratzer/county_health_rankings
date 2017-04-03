@@ -1,0 +1,1 @@
+This repo contains data and analysis of the RWJF County Health Rankings. The work is for the Greater Louisville Project.
