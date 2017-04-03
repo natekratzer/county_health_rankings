@@ -126,3 +126,61 @@ norm_z <- function(x){
 chr_z[,1:35] <- apply(chr_z[,1:35], 2, norm_z) 
 ```
 
+Creating overall rankings for outcomes and each of the four health factors based on weighted average.
+In general, higher scores indicate less healthy, except for the following list, all of which will have their z-scores multiplied by -1 to be consistent.
+*Food environment index
+*Access to exercise opportunities
+*Diabetic Monitoring
+*Mammography Screening
+*High School Graduation
+*Some college
+*Social associations
+
+Also note that the factor weights add up to one for all four factors. However, relative weights are consistent even though within each of the four health factors they don't follow common practice of adding to 1. Since this will be rescaled on a 0 to 1 scale stretching from least healthy to healthiest peer, this shouldn't be a problem. But it does mean they shouldn't be reweighted when all four are added together. 
+
+```{r}
+chr_z <- chr_z %>%
+  mutate(
+    outcomes = premature_death*.5+
+      poor_or_fair_health*.1+
+      poor_physical_health_days*.1+
+      poor_mental_health_days*.1+
+      low_birthweight*.1,
+    health_behaviors = adult_smoking*.1+
+      adult_obesity*.05+
+      food_environment_index*-.02+
+      physical_inactivity*.02+
+      access_to_exercise_opportunities*-.01+
+      excessive_drinking*.025+
+      alcohol_impaired_driving_deaths*.025+
+      sexually_transmitted_infections*.025+
+      teen_births*.025,
+    clinical_care = uninsured*.05+
+      primary_care_physicians*.03+
+      dentists*.01+
+      mental_health_providers*.01+
+      preventable_hospital_stays*.05+
+      diabetes_monitoring*-.025+
+      mammography_screening*.025,
+    social_and_economic = high_school_graduation*.05+
+      some_college*.05+
+      unemployment*.10+
+      children_in_poverty*.075+
+      income_inequality*.025+
+      children_in_single_parent_households*.025+
+      social_associations*-.025+
+      violent_crime*.025+
+      injury_deaths*.025,
+    physical_environment = 
+      air_pollution*.025 +
+      drinking_water*.025 +
+      severe_housing_problems*.02 +
+      driving_alone_to_work * .02 +
+      long_commute * .01,
+    factors = health_behaviors+clinical_care+social_and_economic+physical_environment
+  )
+```
+
+Adding city names instead of just FIPS codes
+
+
