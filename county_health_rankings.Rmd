@@ -59,16 +59,51 @@ pull_all_peers <- function(data){
   data
 }
 
-chr_df_17 = pull_all_peers(chr_df_17)
+chr_df_17 <- pull_all_peers(chr_df_17)
 
 ```
 
-Now renaming everything to have useful names
+Now renaming everything to have useful names and also selecting only the data needed for the analysis. The names are taken from the dataset documentation which I've copied into the repo. 
 
 ```{r}
-
-
-
+chr_df_17 <- chr_df_17 %>%
+  select(
+    premature_death = measure_1_value,
+    poor_or_fair_health = measure_2_value,
+    poor_physical_health_days = measure_36_value,
+    poor_mental_health_days = measure_42_value,
+    low_birthweight = measure_37_value,
+    adult_smoking = measure_9_value,
+    adult_obesity = measure_11_value,
+    food_environment_index = measure_133_value,
+    physical_inactivity = measure_70_value,
+    access_to_exercise_opportunities = measure_132_value,
+    excessive_drinking = measure_49_value,
+    alcohol_impaired_driving_deaths = measure_134_value,
+    sexually_transmitted_infections = measure_45_value,
+    teen_births = measure_14_value,
+    uninsured = measure_85_value,
+    primary_care_physicians = measure_4_value,
+    dentists = measure_88_value,
+    mental_health_providers = measure_62_value,
+    preventable_hospital_stays = measure_5_value,
+    diabetes_monitoring = measure_7_value,
+    mammography_screening = measure_50_value,
+    high_school_graduation = measure_21_value,
+    some_college = measure_69_value,
+    unemployment = measure_23_value,
+    children_in_poverty = measure_24_value,
+    income_inequality = measure_44_value,
+    children_in_single_parent_households = measure_82_value,
+    social_associations = measure_140_value,
+    violent_crime = measure_43_value,
+    injury_deaths = measure_135_value,
+    air_pollution = measure_125_value,
+    drinking_water = measure_124_value,
+    severe_housing_problems = measure_136_value,
+    driving_alone_to_work = measure_67_value,
+    long_commute = measure_137_value
+  )
 
 ```
 
