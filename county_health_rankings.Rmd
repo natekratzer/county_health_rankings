@@ -206,9 +206,7 @@ chr_z <- chr_z %>%
 ```
 
 Transforming the variables to be 0 to 1 scaled
-
 **Also making negative values worse by reversing the index**
-
 ```{r}
 rev_index <- function(x){x * -1}
 
@@ -224,16 +222,20 @@ chr_rescale[ ,45:50] <- apply(chr_rescale[ ,45:50], 2, rescale)
 
 ```
 
+Writing out the values
+```{r}
+write_csv(chr_z, "C:/Users/natek/Dropbox/health_data.csv")
+```
+
 
 Adding a function for graphing
-
 ```{r}
 library(extrafont)
 library(classInt)
 library(ggthemes)
 
 rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
-                            plot_title="",y_title="", subtitle_text = "", caption_text = ""){
+                            plot_title="", caption_text = ""){
   df$var <- df[[var]]
   if(peers=="Current"){
     df<-subset(df,current_peer ==1)
@@ -277,16 +279,17 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
     p<-p+scale_fill_manual(values=c("#db2834","#96ca4f","#ffd600"))
   }
   p = p + theme(text = element_text(family = "Liberation Sans"),
-                plot.title = element_text(family = "Liberation Sans", size = 18, hjust = 0.5),
+                plot.title = element_text(size = 18, hjust = 0.5),
                 axis.text.y=element_text(hjust=0, face = rev(d.graph$textfont),
-                                         size=12, family = "Liberation Sans", color = rev(d.graph$textcolor)),
+                                         size=12, color = rev(d.graph$textcolor)),
                 axis.ticks=element_blank(),
                 axis.text.x = element_blank(),
-                plot.caption = element_text(family = "Liberation Sans"),
-                plot.subtitle = element_text(family = "Liberation Sans", hjust = 0.5))
+                plot.caption = element_text(),
+                plot.subtitle = element_text(hjust = 0.5))
   #p <- p+geom_text(aes(label=round),hjust=1.1, size=5, family = "Liberation Sans")
-  p<-p+labs(title = plot_title, x="",
-            y = y_title, caption = caption_text, subtitle = subtitle_text)
+  p<-p+labs(title = plot_title, y= "Average Peer City",
+            x = "", caption = caption_text)
+  p <- p + geom_hline(yintercept = 0, linetype = "longdash", size = 1)
   p
 }
 
@@ -295,29 +298,29 @@ rank_and_nb_group<-function(df, var, order="Descending", peers="Current",
 Graphing outcomes
 
 ```{r}
-rank_and_nb_group(chr_z, "outcomes", plot_title = "Health Outcomes, 2017", subtitle_text = "County Health Rankings, Robert Wood Johnson Foundation", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
+rank_and_nb_group(chr_z, "outcomes", plot_title = "Health Outcomes, 2017", caption_text = "\n Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
 ```
 
 ```{r}
-rank_and_nb_group(chr_rescale, "outcomes", plot_title = "Health Outcomes, 2017", subtitle_text = "County Health Rankings, Robert Wood Johnson Foundation", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
+rank_and_nb_group(chr_rescale, "outcomes", plot_title = "Health Outcomes, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
 ```
 ```{r}
-rank_and_nb_group(chr_z, "health_behaviors", plot_title = "Health Behaviors, 2017", subtitle_text = "County Health Rankings, Robert Wood Johnson Foundation", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
-```
-
-```{r}
-rank_and_nb_group(chr_z, "clinical_care", plot_title = "Clinical Care, 2017", subtitle_text = "County Health Rankings, Robert Wood Johnson Foundation", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
+rank_and_nb_group(chr_z, "health_behaviors", plot_title = "Health Behaviors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
 ```
 
 ```{r}
-rank_and_nb_group(chr_z, "social_and_economic", plot_title = "Social and Economic Health Factors, 2017", subtitle_text = "County Health Rankings, Robert Wood Johnson Foundation", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
+rank_and_nb_group(chr_z, "clinical_care", plot_title = "Clinical Care, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
 ```
 
 ```{r}
-rank_and_nb_group(chr_z, "physical_environment", plot_title = "Physical Environment, 2017", subtitle_text = "County Health Rankings, Robert Wood Johnson Foundation", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
+rank_and_nb_group(chr_z, "social_and_economic", plot_title = "Social and Economic Health Factors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
 ```
 
 ```{r}
-rank_and_nb_group(chr_z, "factors", plot_title = "Combined Health Factors, 2017", subtitle_text = "County Health Rankings, Robert Wood Johnson Foundation", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
+rank_and_nb_group(chr_z, "physical_environment", plot_title = "Physical Environment, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
+```
+
+```{r}
+rank_and_nb_group(chr_z, "factors", plot_title = "Combined Health Factors, 2017", caption_text = "Source: Greater Louisville Project \n Data from Robert Wood Johnson Foundation")
 ```
 
